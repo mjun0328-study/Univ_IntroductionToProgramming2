@@ -1,27 +1,29 @@
 #include <iostream>
-#include <string>
-#include <fstream>
 using namespace std;
 
-string getHighScore(int& scoreH, string& playerH) {
-  fstream file;
-  file.open("../scores.txt");
+int main() {
+  bool isPrimary[101];
+  for(int i=1; i<=100; i++) {
+    isPrimary[i] = true;
+  }
+  isPrimary[0] = false;
+  isPrimary[1] = false;
 
-  int score;
-  string player;
-  while(file >> player) {
-    file >> score;
-    if(score > scoreH) {
-      scoreH = score;
-      playerH = player;
+  for(int i=2; i<=100; i++) {
+    if(isPrimary[i]) {
+      int multi = 2;
+      while(i * multi <= 100) {
+        isPrimary[i*multi] = false;
+        multi++;
+      }
     }
   }
-  return to_string(scoreH) + " " + playerH;
-}
 
-int main() {
-  string highestPlayer;
-  int highestScore = 0;
-  
-  cout << getHighScore(highestScore, highestPlayer);
+  for(int i=3; i<=100; i++) {
+    if(isPrimary[i]) {
+      cout << i << " ";
+    }
+  }
+
+  return 0;
 }

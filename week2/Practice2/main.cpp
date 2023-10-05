@@ -1,32 +1,21 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
-void compare(int& x, int& y) {
-  if(x > y) {
-    int buffer = x;
-    x = y;
-    y = buffer;
-  }
-  return;
-}
-
-void sort(int& a, int& b, int& c) {
-  compare(a, b);
-  compare(a, c);
-  compare(b, c);
-}
-
 int main() {
-  int x, y, z;
-  char ans;
-  
-  do {
-    cout << "Enter three integers: ";
-    cin >> x >> y >> z;
-    sort(x,y,z);
-    cout << x << " " << y << " " << z << endl;
-    cout << "Again? (Y/y) or type any others to quit: ";
-    cin >> ans;
-  }while(ans == 'y' || ans == 'Y');
+  fstream inputStream;
+  inputStream.open("../file.txt");
+
+  string str;
+  while(true) {
+    inputStream >> str;
+    if(str == "hate") str = "love";
+    cout << str << endl;
+
+    if(inputStream.eof()) break;
+  }
+
+  inputStream.close();
   return 0;
 }

@@ -1,45 +1,32 @@
 #include <iostream>
 using namespace std;
 
-class Circle {
-  private:
-    int radius;
-    const double pi = 3.14159265358979;
-  public:
-    void setRadius(int radius);
-    int getRadius();
-    double getArea();
-    int getDiameter();
-    double getCircumference();
-};
-
-void Circle::setRadius(int _radius) {
-  radius = _radius;
+void compare(int& x, int& y) {
+  if(x > y) {
+    int buffer = x;
+    x = y;
+    y = buffer;
+  }
+  return;
 }
 
-int Circle::getRadius() {
-  return radius;
-}
-
-double Circle::getArea() {
-  return radius * radius * pi;
-}
-
-int Circle::getDiameter() {
-  return radius * 2;
-}
-
-double Circle::getCircumference() {
-  return 2 * radius * pi;
+void sort(int& a, int& b, int& c) {
+  compare(a, b);
+  compare(a, c);
+  compare(b, c);
 }
 
 int main() {
-  Circle circle;
-
-  circle.setRadius(3);
-
-  cout << "radius: " << circle.getRadius() << endl
-       << "area: " << circle.getArea() << endl
-       << "diameter: " << circle.getDiameter() << endl
-       << "circumference: " << circle.getCircumference();
+  int x, y, z;
+  char ans;
+  
+  do {
+    cout << "Enter three integers: ";
+    cin >> x >> y >> z;
+    sort(x,y,z);
+    cout << x << " " << y << " " << z << endl;
+    cout << "Again? (Y/y) or type any others to quit: ";
+    cin >> ans;
+  }while(ans == 'y' || ans == 'Y');
+  return 0;
 }
