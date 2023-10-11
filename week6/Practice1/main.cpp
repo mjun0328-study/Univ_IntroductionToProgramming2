@@ -14,9 +14,14 @@ public:
     double getAmount( ) const;
     int getDollars( ) const;
     int getCents( ) const;
+    const Money percent(int percentFigure) const;
     friend const Money operator +(const Money& amount1, const Money& amount2);
     friend const Money operator -(const Money& amount1, const Money& amount2);
     friend bool operator ==(const Money& amount1, const Money& amount2);
+    friend bool operator <(const Money& amount1, const Money& amount2);
+    friend bool operator <=(const Money& amount1, const Money& amount2);
+    friend bool operator >(const Money& amount1, const Money& amount2);
+    friend bool operator >=(const Money& amount1, const Money& amount2);
     friend const Money operator -(const Money& amount);
     friend ostream& operator <<(ostream& outputStream, const Money& amount);
     friend istream& operator >>(istream& inputStream, Money& amount);
@@ -49,6 +54,18 @@ int main( )
     Money diffAmount = yourAmount - myAmount;
     cout << yourAmount << " - " << myAmount
          << " equals " << diffAmount << endl;
+
+    cout << endl;
+    cout << "Your amount < My amount : " << (yourAmount < myAmount ? "True" : "False") << endl;
+    cout << "Your amount <= My amount : " << (yourAmount <= myAmount ? "True" : "False") << endl;
+    cout << "Your amount > My amount : " << (yourAmount > myAmount ? "True" : "False") << endl;
+    cout << "Your amount >= My amount : " << (yourAmount >= myAmount ? "True" : "False") << endl;
+    cout << endl;
+
+    int percent;
+    cout << "Getting x\% of amount... x : ";
+    cin >> percent;
+    cout << percent << "\% of your amount : " << yourAmount.percent(percent);
 
     return 0;
 }
@@ -137,6 +154,34 @@ bool operator ==(const Money& amount1, const Money& amount2)
            && (amount1.cents == amount2.cents));
 }
 
+bool operator <(const Money& amount1, const Money& amount2)
+{
+    int allCents1 = amount1.cents + amount1.dollars*100;
+    int allCents2 = amount2.cents + amount2.dollars*100;
+    return allCents1 < allCents2;
+}
+
+bool operator <=(const Money& amount1, const Money& amount2)
+{
+    int allCents1 = amount1.cents + amount1.dollars*100;
+    int allCents2 = amount2.cents + amount2.dollars*100;
+    return allCents1 <= allCents2;
+}
+
+bool operator >(const Money& amount1, const Money& amount2)
+{
+    int allCents1 = amount1.cents + amount1.dollars*100;
+    int allCents2 = amount2.cents + amount2.dollars*100;
+    return allCents1 > allCents2;
+}
+
+bool operator >=(const Money& amount1, const Money& amount2)
+{
+    int allCents1 = amount1.cents + amount1.dollars*100;
+    int allCents2 = amount2.cents + amount2.dollars*100;
+    return allCents1 >= allCents2;
+}
+
 const Money operator -(const Money& amount)
 {
     return Money(-amount.dollars, -amount.cents);
@@ -164,6 +209,17 @@ Money::Money(int theDollars, int theCents)
     }
     dollars = theDollars;
     cents = theCents;
+}
+
+const Money Money::percent(int percentFigure) const
+{
+    int allCents = cents + dollars*100;
+    allCents = allCents * percentFigure / 100;
+
+    int finalDollars = allCents/100;
+    int finalCents = allCents%100;
+    
+    return Money(finalDollars, finalCents);
 }
 
 double Money::getAmount( ) const
