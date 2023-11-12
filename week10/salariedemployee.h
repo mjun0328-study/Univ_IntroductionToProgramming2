@@ -21,7 +21,7 @@ namespace SavitchEmployees
     double getSalary();
     void setSalary(double newSalary); 
     void printCheck( );
-  private:
+  protected:
     double salary; //weekly
   };
 
